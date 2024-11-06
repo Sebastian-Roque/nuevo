@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Contenedor del ícono que aplicará la animación -->
+  <div class="page-icon-container">
+    <div class="page-icon"></div>
+  </div>
+  
+  <!-- Contenido del encabezado dentro del contenido -->
+  <div class="header-content ion-padding">
+    <h1 class="ion-text-center title-text">¡¡Qué opinas!!</h1>
+  </div>
+
+  <!-- Contenedor de inicio de sesión -->
+  <div class="login-container ion-margin-top">
+    <h2 class="ion-text-center subtitle-text">¡Bienvenido!</h2>
+
+    <!-- Campo de Correo Electrónico -->
+    <ion-item lines="full">
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input 
+        type="email" 
+        maxlength="50" 
+        required 
+        [(ngModel)]="email" 
+        #emailInput="ngModel">
+      </ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+      <p class="ion-padding-start">Por favor, ingresa un correo válido.</p>
+    </ion-text>
+
+    <!-- Campo de Contraseña -->
+    <ion-item lines="full" class="password-item" style="margin-top: 15px;">
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input 
+        [type]="passwordType" 
+        maxlength="15" 
+        required 
+        [(ngModel)]="password" 
+        #passwordInput="ngModel">
+      </ion-input>
+      <ion-button fill="clear" class="toggle-password" (click)="togglePasswordVisibility()" slot="end">
+        <ion-icon [name]="passwordIcon"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-text color="danger" *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)">
+      <p class="ion-padding-start">La contraseña debe tener al menos 4 caracteres.</p>
+    </ion-text>
+
+    <!-- Mostrar errores de inicio de sesión -->
+    <ion-text color="danger" *ngIf="loginError">
+      <p class="ion-padding-start">{{ loginError }}</p>
+    </ion-text>
+
+    <!-- Botón de Ingreso -->
+    <ion-button 
+      fill="solid" 
+      expand="block" 
+      color="primary" 
+      (click)="login()" 
+      [disabled]="!emailInput.valid || !passwordInput.valid" 
+      class="login-button">
+      Ingresar
+    </ion-button>
+
+    <!-- Enlace para crear cuenta -->
+    <ion-text class="ion-text-center link-text">
+      <p>
+        <a (click)="goToRegister()">Crea tu cuenta gratis</a>
+      </p>
+    </ion-text>
+
+    <!-- Enlace para restablecer contraseña -->
+    <ion-text class="ion-text-center link-text">
+      <p>
+        <a (click)="goToResetPassword()">¿Olvidaste tu contraseña?</a>
+      </p>
+    </ion-text>
+  </div>
+</ion-content>
+

@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+        Regresar
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Gestión de Sucursales</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <section class="form-section">
+    <h2>Crear/Actualizar Sucursal</h2>
+
+    <form [formGroup]="sucursalForm" (ngSubmit)="crearSucursal()" class="sucursal-form">
+      <ion-item>
+        <ion-label position="stacked">RUT</ion-label>
+        <ion-input formControlName="rut" placeholder="Ej: 12345678-9"></ion-input>
+        <ion-text color="danger" *ngIf="sucursalForm.get('rut')?.invalid && sucursalForm.get('rut')?.touched">
+          <p>RUT inválido.</p>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tipo de Sucursal</ion-label>
+        <ion-select formControlName="tipo">
+          <ion-select-option value="Tienda">Tienda</ion-select-option>
+          <ion-select-option value="Oficina">Oficina</ion-select-option>
+          <ion-select-option value="Almacén">Almacén</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input formControlName="nombre" placeholder="Nombre de la sucursal"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Dirección 1</ion-label>
+        <ion-input formControlName="direccion1" placeholder="Dirección principal"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Dirección 2</ion-label>
+        <ion-input formControlName="direccion2" placeholder="Dirección secundaria"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Dirección 3</ion-label>
+        <ion-input formControlName="direccion3" placeholder="Otra dirección"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Comuna</ion-label>
+        <ion-input formControlName="comuna" placeholder="Comuna de la sucursal"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Región</ion-label>
+        <ion-input formControlName="region" placeholder="Región de la sucursal"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Nombre del Dueño</ion-label>
+        <ion-input formControlName="nombreDueno" placeholder="Nombre completo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Número de Contacto</ion-label>
+        <ion-input formControlName="numeroContacto" placeholder="Ej: 987654321"></ion-input>
+        <ion-text color="danger" *ngIf="sucursalForm.get('numeroContacto')?.invalid && sucursalForm.get('numeroContacto')?.touched">
+          <p>Número inválido.</p>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea formControlName="descripcion" placeholder="Descripción breve de la sucursal"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Logo</ion-label>
+        <ion-input type="file" formControlName="logo" placeholder="Sube el logo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Portada</ion-label>
+        <ion-input type="file" formControlName="portada" placeholder="Sube la portada"></ion-input>
+      </ion-item>
+
+      <div class="button-group">
+        <ion-button expand="block" color="primary" type="submit" [disabled]="sucursalForm.invalid">Crear</ion-button>
+        <ion-button expand="block" color="secondary" (click)="actualizarSucursal()" [disabled]="sucursalForm.invalid">Actualizar</ion-button>
+        <ion-button expand="block" color="danger" (click)="confirmarEliminar(sucursalForm.value)">Eliminar</ion-button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Lista de Sucursales -->
+  <section class="sucursales-list">
+    <h2>Lista de Sucursales</h2>
+    <ion-list>
+      <ion-item *ngFor="let sucursal of sucursales">
+        <ion-label>
+          <h3>{{ sucursal.nombre }}</h3>
+          <p>Comuna: {{ sucursal.comuna }}, Región: {{ sucursal.region }}</p>
+          <small>Creado el: {{ sucursal.fechaCreacion | date: 'short' }}</small>
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button color="tertiary" (click)="modificarSucursal(sucursal)">
+            <ion-icon name="create-outline"></ion-icon>
+            Editar
+          </ion-button>
+          <ion-button color="danger" (click)="confirmarEliminar(sucursal)">
+            <ion-icon name="trash-outline"></ion-icon>
+            Eliminar
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  </section>
+</ion-content>

@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="title-center">Usuarios Registrados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2 class="title-center">Lista de Usuarios</h2>
+
+  <!-- Contenedor con Buscador y Filtro -->
+  <div class="search-filter-container">
+    <!-- Buscador -->
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterUsers()"
+      placeholder="Buscar usuarios"
+      class="custom-searchbar">
+    </ion-searchbar>
+
+    <!-- Botón de Filtro -->
+    <ion-button (click)="openFilterModal()" class="filter-button" fill="solid">
+      <ion-icon name="filter-outline"></ion-icon>
+      FILTROS
+    </ion-button>
+  </div>
+
+  <!-- Mensaje si no se encuentran resultados -->
+  <div *ngIf="filteredUsers.length === 0 && searchTerm" class="no-results">
+    <ion-label color="danger">No se encontraron usuarios que coincidan con el término de búsqueda.</ion-label>
+  </div>
+
+  <!-- Modal de Filtros -->
+  <ion-modal [isOpen]="isFilterModalOpen" (didDismiss)="isFilterModalOpen = false">
+    <ng-template>
+      <ion-header translucent>
+        <ion-toolbar>
+          <ion-title>Filtros</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeFilterModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label>Rol</ion-label>
+          <ion-select [(ngModel)]="filter.role" placeholder="Seleccionar rol">
+            <ion-select-option value="Administrador">Administrador</ion-select-option>
+            <ion-select-option value="Usuario">Usuario</ion-select-option>
+            <ion-select-option value="Moderador">Moderador</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Fecha de Última Conexión</ion-label>
+          <ion-select [(ngModel)]="filter.dateOrder" placeholder="Seleccionar orden">
+            <ion-select-option value="asc">Ascendente</ion-select-option>
+            <ion-select-option value="desc">Descendente</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button expand="block" (click)="applyFilters()">Aplicar Filtros</ion-button>
+        <ion-button expand="block" color="light" (click)="clearFilters()">Limpiar Filtros</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Lista de Usuarios con Cards -->
+  <div class="list-container">
+    <ion-card *ngFor="let user of filteredUsers" class="user-card">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img [src]="user.avatarUrl || 'assets/default-avatar.png'" alt="Avatar de Usuario">
+        </ion-avatar>
+        <ion-label>
+          <h3>{{ user.username }}</h3>
+          <p>Nombre: {{ user.name }}</p>
+          <p>Email: {{ user.email }}</p>
+          <p>Rol: {{ user.role }}</p>
+          <p>Última conexión: {{ user.lastLogin | date:'short' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Imagen de portada -->
+  <div class="cover-image" [ngStyle]="{'background-image': 'url(' + sucursal.portadaUrl + ')'}"></div>
+
+  <!-- Información general de la sucursal -->
+  <div class="sucursal-profile-container ion-padding">
+    <div class="logo-container">
+      <img [src]="sucursal.logoUrl" alt="Logo de {{ sucursal.nombre }}" class="sucursal-logo">
+    </div>
+
+    <h2 class="sucursal-name">{{ sucursal.nombre }}</h2>
+
+    <div class="sucursal-info">
+
+      <p><strong>Horario:</strong> {{ sucursal.horario }}</p>
+      <p><strong>Descripción:</strong> {{ sucursal.descripcion }}</p>
+    </div>
+  </div>
+
+  <!-- Filtro de comentarios -->
+  <div class="comentarios-filter-container ion-padding">
+    <ion-item>
+      <ion-label>Filtrar por:</ion-label>
+      <ion-select [(ngModel)]="filterType" (ionChange)="applyCommentFilter()">
+        <ion-select-option value="fecha">Fecha (Últimos primero)</ion-select-option>
+        <ion-select-option value="evaluacion">Calificación (Mayor a menor)</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <!-- Lista de Comentarios -->
+  <div class="list-container">
+    <h3>Comentarios</h3>
+    <ion-list *ngIf="filteredComentarios.length > 0">
+      <ion-item *ngFor="let comentario of filteredComentarios">
+        <ion-label>
+          <h4>{{ comentario.usuario }}</h4>
+          <p>{{ comentario.descripcion }}</p>
+          <p><strong>Fecha:</strong> {{ comentario.fecha | date: 'medium' }}</p>
+          <p><strong>Evaluación:</strong> {{ comentario.evaluacion }} estrellas</p>
+          <div *ngIf="comentario.imagenUrl" class="comment-image-container">
+            <img [src]="comentario.imagenUrl" alt="Imagen del comentario" class="comment-image">
+          </div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <div *ngIf="filteredComentarios.length === 0" class="no-comments">
+      <ion-label color="danger">No hay comentarios para mostrar.</ion-label>
+    </div>
+  </div>
+
+  <!-- Mapa y ubicación -->
+  <div class="map-container">
+    <h3>Ubicación</h3>
+    <div id="map" class="map"></div>
+    <div class="map-info">
+      <p><strong>Dirección:</strong> {{ sucursal.direccion }}</p>
+      <p><strong>Región:</strong> {{ sucursal.region }}</p>
+      <p><strong>Comuna:</strong> {{ sucursal.comuna }}</p>
+    </div>
+  </div>
+</ion-content>
+

@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="form-wrapper">
+    <h2 class="form-title">Formulario de Reclamo</h2>
+    <form [formGroup]="reclamoForm" (ngSubmit)="submitForm()" class="form-container">
+
+      <!-- Tipo de Sucursal -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Tipo de Sucursal</mat-label>
+        <mat-select formControlName="tipoSucursal" required>
+          <mat-option value="tipo1">Tipo 1</mat-option>
+          <mat-option value="tipo2">Tipo 2</mat-option>
+          <mat-option value="tipo3">Tipo 3</mat-option>
+        </mat-select>
+        <ion-note color="danger" *ngIf="reclamoForm.get('tipoSucursal')?.hasError('required') && reclamoForm.get('tipoSucursal')?.touched">
+          Selecciona el tipo de sucursal.
+        </ion-note>
+      </mat-form-field>
+
+      <!-- Nombre de la Sucursal (Combo Box) -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nombre de la Sucursal</mat-label>
+        <mat-select formControlName="nombreSucursal" required>
+          <mat-option *ngFor="let sucursal of sucursales" [value]="sucursal">{{ sucursal }}</mat-option>
+        </mat-select>
+        <ion-note color="danger" *ngIf="reclamoForm.get('nombreSucursal')?.hasError('required') && reclamoForm.get('nombreSucursal')?.touched">
+          Selecciona el nombre de la sucursal.
+        </ion-note>
+      </mat-form-field>
+
+      <!-- Correo -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Correo</mat-label>
+        <input matInput type="email" formControlName="correo">
+      </mat-form-field>
+      <ion-note color="danger" *ngIf="reclamoForm.get('correo')?.hasError('required') && reclamoForm.get('correo')?.touched">
+        El correo es obligatorio.
+      </ion-note>
+      <ion-note color="danger" *ngIf="reclamoForm.get('correo')?.hasError('email') && reclamoForm.get('correo')?.touched">
+        Ingresa un correo válido.
+      </ion-note>
+
+      <!-- Tipo de Reclamo -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Tipo de Reclamo</mat-label>
+        <mat-select formControlName="tipoReclamo">
+          <mat-option value="producto">Producto</mat-option>
+          <mat-option value="servicio">Servicio</mat-option>
+          <mat-option value="otro">Otro</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Descripción -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="descripcion" maxlength="300"></textarea>
+        <mat-hint align="end">{{ reclamoForm.get('descripcion')?.value?.length || 0 }} / 300</mat-hint>
+      </mat-form-field>
+      <ion-note color="danger" *ngIf="reclamoForm.get('descripcion')?.hasError('required') && reclamoForm.get('descripcion')?.touched">
+        La descripción es obligatoria.
+      </ion-note>
+
+      <!-- Área de carga de imagen -->
+      <div class="image-upload-container">
+        <label class="image-upload-label" for="imageUpload">Cargar Imagen</label>
+        <input type="file" id="imageUpload" (change)="onFileSelected($event)" accept=".jpg">
+      </div>
+
+      <!-- Vista previa de imagen -->
+      <div *ngIf="previewImage" class="image-preview-container">
+        <img [src]="previewImage" alt="Vista previa de imagen" class="image-preview">
+      </div>
+
+      <!-- Botones Enviar y Limpiar -->
+      <div class="button-group">
+        <ion-button expand="full" type="submit" [disabled]="!reclamoForm.valid">Enviar Reclamo</ion-button>
+        <ion-button expand="full" color="light" type="button" (click)="clearForm()">Limpiar</ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

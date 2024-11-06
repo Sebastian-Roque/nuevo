@@ -1,0 +1,14 @@
+<h2>Mejores Locales</h2>
+<ion-slides [options]="slideOpts">
+  <ion-slide *ngFor="let local of mejoresLocales">
+    <ion-card>
+      <img [src]="local.imagen" />
+      <ion-card-header>
+        <ion-card-title>{{ local.nombre }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{ local.descripcion }}
+      </ion-card-content>
+    </ion-card>
+  </ion-slide>
+</ion-slides>

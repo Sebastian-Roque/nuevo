@@ -1,0 +1,10 @@
+<h2>Comentarios Populares</h2>
+<ion-list>
+  <ion-item *ngFor="let comentario of comentariosPopulares">
+    <ion-label>
+      <h3>{{ comentario.autor }}</h3>
+      <p>{{ comentario.texto }}</p>
+      <ion-note>{{ comentario.fecha | date }}</ion-note>
+    </ion-label>
+  </ion-item>
+</ion-list>

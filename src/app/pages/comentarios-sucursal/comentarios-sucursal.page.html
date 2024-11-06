@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center"> </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2 class="title-center">Comentarios Generales</h2>
+
+  <!-- Contenedor de Buscador y Filtro -->
+  <div class="search-filter-container">
+    <!-- Buscador -->
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="onSearch()"
+      placeholder="Buscar comentarios"
+      class="custom-searchbar">
+    </ion-searchbar>
+
+    <!-- Botón para abrir el Filtro -->
+    <ion-button (click)="openFilterModal()" expand="block" class="filter-button">
+      <ion-icon name="filter-outline"></ion-icon>
+      Filtros
+    </ion-button>
+  </div>
+
+  <!-- Modal de Filtros -->
+  <ion-modal [isOpen]="isFilterModalOpen" (didDismiss)="isFilterModalOpen = false">
+    <ng-template>
+      <ion-header translucent>
+        <ion-toolbar>
+          <ion-title>Filtros</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeFilterModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label>Tipo de Comentario</ion-label>
+          <ion-select [(ngModel)]="filter.type" placeholder="Seleccionar tipo">
+            <ion-select-option value="positivo">Positivo</ion-select-option>
+            <ion-select-option value="negativo">Negativo</ion-select-option>
+            <ion-select-option value="neutral">Neutral</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Ordenar por Fecha</ion-label>
+          <ion-select [(ngModel)]="filter.dateOrder" placeholder="Seleccionar orden">
+            <ion-select-option value="asc">Ascendente</ion-select-option>
+            <ion-select-option value="desc">Descendente</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Ordenar por Estrellas</ion-label>
+          <ion-select [(ngModel)]="filter.ratingOrder" placeholder="Seleccionar orden">
+            <ion-select-option value="asc">Ascendente</ion-select-option>
+            <ion-select-option value="desc">Descendente</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button expand="block" (click)="applyFilters()">Aplicar Filtros</ion-button>
+        <ion-button expand="block" color="light" (click)="clearFilters()">Limpiar Filtros</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Mensaje si no se encuentran resultados -->
+  <div *ngIf="filteredComments.length === 0 && searchTerm" class="no-results">
+    <ion-label color="danger">No se encontraron comentarios que coincidan con el término de búsqueda.</ion-label>
+  </div>
+
+  <!-- Lista de Comentarios con Cards en una cuadrícula de 4 columnas -->
+  <div class="list-container">
+    <ion-card *ngFor="let comment of filteredComments" class="comment-card">
+      <ion-card-header>
+        <ion-card-title>{{ comment.userName || 'Anónimo' }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Tipo:</strong> {{ comment.type }}</p>
+        <p>{{ comment.description }}</p>
+        <p><strong>Dirección:</strong> {{ comment.address }}, {{ comment.comuna }}, {{ comment.region }}</p>
+        <p><strong>Fecha:</strong> {{ comment.date | date:'short' }}</p>
+        <!-- Estrellas en color distintivo -->
+        <p class="star-rating"><ion-badge color="primary">{{ comment.rating }} estrellas</ion-badge></p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

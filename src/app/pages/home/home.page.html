@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Inicio</ion-title>
+    <ion-buttons slot="end" *ngIf="!isLoggedIn">
+      <ion-button (click)="goToLogin()">
+        <ion-icon slot="start" name="log-in-outline"></ion-icon>
+        Iniciar Sesión
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="isLoggedIn">
+      <ion-button (click)="goToProfile()">
+        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Bienvenida al usuario -->
+  <h1>Bienvenido, {{ receivedUsername }}!</h1>
+
+  <!-- Segmento usando Angular Material
+  <mat-button-toggle-group [(ngModel)]="selectedSegment">
+    <mat-button-toggle value="mis-datos">Mis Datos</mat-button-toggle>
+    <mat-button-toggle value="experiencia-laboral">Experiencia Laboral</mat-button-toggle>
+    <mat-button-toggle value="certificaciones">Certificaciones</mat-button-toggle>
+    <mat-button-toggle value="usuariosfirebase">CRUD Usuarios Firebase</mat-button-toggle>
+  </mat-button-toggle-group> -->
+
+  <br>
+  <!-- Mostrar componentes según el valor seleccionado en el segmento -->
+  <ng-container *ngIf="selectedSegment === 'mis-datos'">
+    <app-mis-datos></app-mis-datos>
+  </ng-container>
+  <ng-container *ngIf="selectedSegment === 'experiencia-laboral'">
+    <app-experiencia-laboral></app-experiencia-laboral>
+  </ng-container>
+  <ng-container *ngIf="selectedSegment === 'certificaciones'">
+    <app-certificaciones></app-certificaciones>
+  </ng-container>
+  <!-- Nuevo contenedor para CRUD Usuarios Firebase -->
+  <ng-container *ngIf="selectedSegment === 'usuariosfirebase'">
+    <app-usuariosfirebase></app-usuariosfirebase>
+  </ng-container>
+
+  <!-- Carrusel de Mejores Locales -->
+  <h2>Mejores Locales</h2>
+  <ion-slides [options]="slideOpts">
+    <ion-slide *ngFor="let local of mejoresLocales">
+      <ion-card>
+        <img [src]="local.imagen" />
+        <ion-card-header>
+          <ion-card-title>{{ local.nombre }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ local.descripcion }}
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <!-- Lista de Comentarios Populares -->
+  <h2>Comentarios Populares</h2>
+  <ion-list>
+    <ion-item *ngFor="let comentario of comentariosPopulares">
+      <ion-label>
+        <h3>{{ comentario.autor }}</h3>
+        <p>{{ comentario.texto }}</p>
+        <ion-note>{{ comentario.fecha | date }}</ion-note>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Sección de Peores Locales -->
+  <h2>Peores Locales</h2>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let local of peoresLocales">
+        <ion-card>
+          <img [src]="local.imagen" />
+          <ion-card-header>
+            <ion-card-title>{{ local.nombre }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            {{ local.descripcion }}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

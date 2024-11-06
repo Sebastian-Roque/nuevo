@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <br>
+  <h2 class="title-center">Lista de Comentarios</h2>
+  <br>
+  <!-- Contenedor de Filtro y Buscador en una sola fila -->
+  <div class="search-filter-container">
+    <!-- Buscador -->
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterComments()"
+      placeholder="Buscar comentarios"
+      class="custom-searchbar">
+    </ion-searchbar>
+
+    <!-- Botón de Filtro -->
+    <ion-button (click)="openFilterModal()" class="filter-button" fill="solid">
+      <ion-icon name="filter-outline"></ion-icon>
+      FILTROS
+    </ion-button>
+  </div>
+
+  <!-- Modal de Filtros -->
+  <ion-modal [isOpen]="isFilterModalOpen" (didDismiss)="isFilterModalOpen = false">
+    <ng-template>
+      <ion-header translucent>
+        <ion-toolbar>
+          <ion-title>Filtros</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeFilterModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label>Comuna</ion-label>
+          <ion-select [(ngModel)]="filter.comuna" placeholder="Seleccionar comuna">
+            <ion-select-option value="Santiago">Santiago</ion-select-option>
+            <ion-select-option value="Providencia">Providencia</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Región</ion-label>
+          <ion-select [(ngModel)]="filter.region" placeholder="Seleccionar región">
+            <ion-select-option value="Metropolitana">Metropolitana</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Tipo de Comentario</ion-label>
+          <ion-select [(ngModel)]="filter.type" placeholder="Seleccionar tipo">
+            <ion-select-option value="Positivo">Positivo</ion-select-option>
+            <ion-select-option value="Negativo">Negativo</ion-select-option>
+            <ion-select-option value="Neutral">Neutral</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Cantidad de Estrellas</ion-label>
+          <ion-select [(ngModel)]="filter.ratingOrder" placeholder="Seleccionar orden">
+            <ion-select-option value="asc">Ascendente</ion-select-option>
+            <ion-select-option value="desc">Descendente</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button expand="block" (click)="applyFilters()">Aplicar Filtros</ion-button>
+        <ion-button expand="block" color="light" (click)="clearFilters()">Limpiar Filtros</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Lista de Comentarios con Cards -->
+  <div class="list-container">
+    <ion-card *ngFor="let comment of filteredComments" class="comment-card">
+      <ion-card-header>
+        <ion-card-title>{{ comment.userName || 'Anónimo' }}</ion-card-title>
+        <ion-badge color="primary" slot="end">{{ comment.rating }} estrellas</ion-badge>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Tipo:</strong> {{ comment.type }}</p>
+        <p>{{ comment.description }}</p>
+        <p><strong>Dirección:</strong> {{ comment.address }}, Comuna: {{ comment.comuna }}, Región: {{ comment.region }}</p>
+        <p><strong>Fecha:</strong> {{ comment.date | date:'short' }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

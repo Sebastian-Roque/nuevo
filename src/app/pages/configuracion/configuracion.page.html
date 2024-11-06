@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Configuración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2 class="ion-text-center">Configuración</h2>
+  <br>
+
+  <ion-list>
+    <!-- Opciones para Administrador -->
+    <ng-container *ngIf="userRole === 'administrador'">
+      <ion-item (click)="goToListComentarios()">
+        <ion-label class="ion-text-center">Lista de Comentarios Generales</ion-label>
+      </ion-item>
+      <ion-item (click)="goToListUsuarios()">
+        <ion-label class="ion-text-center">Lista de Usuarios</ion-label>
+      </ion-item>
+      <ion-item (click)="goToVerReclamos()">
+        <ion-label class="ion-text-center">Ver Reclamos Generales</ion-label>
+      </ion-item>
+    </ng-container>
+
+    <!-- Opciones para Empresario -->
+    <ng-container *ngIf="userRole === 'empresario'">
+      <ion-item (click)="goToAddSucursal()">
+        <ion-label class="ion-text-center">Agregar Sucursal</ion-label>
+      </ion-item>
+      <ion-item (click)="goToListComentariosSucursal()">
+        <ion-label class="ion-text-center">Lista de Comentarios de la Sucursal</ion-label>
+      </ion-item>
+      <ion-item (click)="goToVerReclamos()">
+        <ion-label class="ion-text-center">Ver Reclamos</ion-label>
+      </ion-item>
+    </ng-container>
+
+    <!-- Opciones para Usuario -->
+    <ng-container *ngIf="userRole === 'usuario'">
+      <ion-item (click)="goToMisComentarios()">
+        <ion-label class="ion-text-center">Mis Comentarios</ion-label>
+      </ion-item>
+      <ion-item (click)="goToServicios()">
+        <ion-label class="ion-text-center">Servicios</ion-label>
+      </ion-item>
+      <ion-item (click)="goToQuienesSomos()">
+        <ion-label class="ion-text-center">¿Quiénes Somos?</ion-label>
+      </ion-item>
+      <ion-item (click)="goToAyudaCliente()">
+        <ion-label class="ion-text-center">Ayuda al Cliente</ion-label>
+      </ion-item>
+      <ion-item (click)="goToReclamos()">
+        <ion-label class="ion-text-center">Reclamos</ion-label>
+      </ion-item>
+    </ng-container>
+
+    <!-- Opción de cerrar sesión para todos los roles autenticados -->
+    <ion-item *ngIf="isLoggedIn" (click)="logOut()">
+      <ion-label class="ion-text-center">Cerrar Sesión</ion-label>
+    </ion-item>
+
+    <!-- Opción de Personalización de Colores accesible para todos los roles autenticados -->
+    <ion-item *ngIf="isLoggedIn" (click)="goToPersonalizacion()">
+      <ion-label class="ion-text-center">Personalización de Colores</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

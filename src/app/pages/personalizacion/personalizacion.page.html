@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Personalización de Colores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <ion-label>Color Primario</ion-label>
+      <input type="color" [(ngModel)]="selectedPrimary" (change)="updateColors()" />
+    </ion-item>
+    <ion-item>
+      <ion-label>Color Secundario</ion-label>
+      <input type="color" [(ngModel)]="selectedSecondary" (change)="updateColors()" />
+    </ion-item>
+    <ion-item>
+      <ion-label>Fondo de Aplicación</ion-label>
+      <input type="color" [(ngModel)]="selectedBackground" (change)="updateColors()" />
+    </ion-item>
+    <ion-item>
+      <ion-label>Color de Texto</ion-label>
+      <input type="color" [(ngModel)]="selectedText" (change)="updateColors()" />
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" color="primary" (click)="updateColors()">Guardar Cambios</ion-button>
+</ion-content>

@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+    <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="form-wrapper">
+    <h2 class="form-title">Registra tu Comentario</h2>
+    <form [formGroup]="comentarioForm" (ngSubmit)="onSubmit()" class="form-container">
+
+      <!-- Tipo de Sucursal -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Tipo de Sucursal</mat-label>
+        <mat-select formControlName="tipoSucursal">
+          <mat-option value="tienda">Tienda</mat-option>
+          <mat-option value="oficina">Oficina</mat-option>
+          <mat-option value="centro de atención">Centro de Atención</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Sucursal -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Sucursal</mat-label>
+        <mat-select formControlName="sucursal" (selectionChange)="onSucursalChange($event)">
+          <mat-option *ngFor="let sucursal of sucursales" [value]="sucursal.id">
+            {{ sucursal.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Región -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Región</mat-label>
+        <mat-select formControlName="region" [disabled]="!selectedSucursal">
+          <mat-option *ngFor="let region of regiones" [value]="region">
+            {{ region }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Comuna -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Comuna</mat-label>
+        <mat-select formControlName="comuna" [disabled]="!selectedSucursal">
+          <mat-option *ngFor="let comuna of comunas" [value]="comuna">
+            {{ comuna }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Dirección -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Dirección</mat-label>
+        <mat-select formControlName="direccion" [disabled]="!selectedSucursal">
+          <mat-option *ngFor="let direccion of selectedSucursal?.direcciones" [value]="direccion">
+            {{ direccion }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Fecha de Visita -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Fecha de Visita</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fechaHora">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Tipo de Queja -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Tipo de Queja</mat-label>
+        <mat-select formControlName="tipoQueja">
+          <mat-option value="servicio">Servicio</mat-option>
+          <mat-option value="producto">Producto</mat-option>
+          <mat-option value="otro">Otro</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Descripción -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="descripcion" maxlength="300"></textarea>
+        <mat-hint align="end">{{ comentarioForm.get('descripcion')?.value?.length || 0 }} / 300</mat-hint>
+      </mat-form-field>
+
+      <!-- Evaluación por Estrellas -->
+      <ion-item>
+        <ion-label position="stacked">Evaluación</ion-label>
+        <ion-range min="1" max="5" step="1" snaps="true" ticks="true" formControlName="evaluacion">
+          <ion-icon slot="start" name="star-outline"></ion-icon>
+          <ion-icon slot="end" name="star"></ion-icon>
+        </ion-range>
+        <ion-text>{{ comentarioForm.get('evaluacion')?.value }} Estrellas</ion-text>
+      </ion-item>
+
+      <!-- Área de carga de imagen -->
+      <div class="image-upload-container">
+        <label class="image-upload-label" for="imageUpload">Cargar Imagen</label>
+        <input type="file" id="imageUpload" (change)="onFileSelected($event)" accept=".jpg,.png">
+      </div>
+
+      <!-- Vista previa de imagen -->
+      <div *ngIf="selectedImage" class="image-preview-container">
+        <img [src]="selectedImage" alt="Vista previa de imagen">
+      </div>
+
+      <!-- Botones -->
+      <div class="button-group">
+        <ion-button expand="full" type="submit" [disabled]="formSubmitted && !comentarioForm.valid" color="primary">
+          Enviar Comentario
+        </ion-button>
+        <ion-button expand="full" color="medium" type="button" (click)="clearForm()">Limpiar</ion-button>
+      </div>
+
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,234 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import "@ionic/angular/css/palettes/dark.system.css";
+
+/* Ícono global sin animación, se deja básico sin la animación */
+.page-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px auto;
+}
+
+:root {
+    /* Colores y bordes generales */
+    --color-primary: #1e90ff;
+    --color-secondary: #1c7ed6;
+    --color-background: #ffffff;
+    --color-text: #333333;
+    --color-input-bg: #f1f1f1;
+    --color-border: #cccccc;
+    --color-placeholder: #888888;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos comunes para formularios */
+.form-container {
+    padding: 8px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin: 12px;
+}
+
+ion-item, ion-input, ion-textarea, ion-select {
+    --background: var(--color-input-bg);
+    --placeholder-color: var(--color-placeholder);
+    --color: var(--color-text);
+    border-radius: var(--border-radius);
+    margin-bottom: 16px;
+    padding: 12px;
+    box-shadow: var(--box-shadow);
+}
+
+ion-label {
+    color: var(--color-text);
+    font-weight: bold;
+}
+
+ion-button {
+    --background: var(--color-primary);
+    --color: #ffffff;
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    font-weight: bold;
+    box-shadow: var(--box-shadow);
+
+    &:hover {
+        --background: var(--color-secondary);
+    }
+}
+
+ion-text {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    margin-top: 8px;
+}
+
+/* Placeholder común para los inputs */
+ion-input::part(placeholder), ion-textarea::part(placeholder) {
+    color: var(--color-placeholder);
+}
+
+ion-card-header, ion-card-title {
+    color: var(--color-text);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+ion-card-content {
+    color: var(--color-text);
+    font-size: 1rem;
+    margin-top: 8px;
+}
+
+/* Estilos para el contenido del card */
+ion-card-content p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+
+ion-badge {
+    color: #ffffff;
+    background-color: var(--color-primary);
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+ion-button {
+    --background: var(--color-secondary);
+    --color: #ffffff;
+    border-radius: var(--border-radius);
+    padding: 8px 16px;
+    font-weight: bold;
+    box-shadow: var(--box-shadow);
+}
+
+
+/* Contenedor de lista */
+.list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px; /* Ajusta el espacio entre cards */
+    padding: 10px; /* Espacio alrededor del contenedor */
+    justify-items: center; /* Centra los cards en la columna */
+}
+
+/* Estilos para los cards en listas */
+ion-card {
+    background-color: var(--color-input-bg);
+    color: var(--color-text);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 100%; /* Llenar el ancho completo de la columna */
+    padding: 16px;
+}
+
+.list-flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px; /* Controla el espacio entre elementos de la lista */
+    justify-content: space-between; /* Distribuye los elementos en el ancho del contenedor */
+    padding: 10px;
+}
+
+/* Estilos para cada elemento de la lista */
+.list-item {
+    background-color: var(--color-input-bg);
+    color: var(--color-text);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 16px;
+    flex: 1 1 calc(5% - 8px); /* Ajusta a 4 columnas, menos el gap */
+    max-width: calc(15% - 8px); /* Ancho máximo de 4 columnas */
+    box-sizing: border-box;
+}
+
+/* Responsividad para dispositivos más pequeños */
+@media (max-width: 1024px) {
+    .list-item {
+        flex: 1 1 calc(33.33% - 8px); /* Ajusta a 3 columnas en pantallas medianas */
+        max-width: calc(33.33% - 8px);
+    }
+}
+
+@media (max-width: 768px) {
+    .list-item {
+        flex: 1 1 calc(50% - 8px); /* Ajusta a 2 columnas en pantallas pequeñas */
+        max-width: calc(50% - 8px);
+    }
+}
+
+@media (max-width: 480px) {
+    .list-item {
+        flex: 1 1 100%; /* Ajusta a 1 columna en pantallas extra pequeñas */
+        max-width: 100%;
+    }
+}
+
+/* Contenedor de buscador y filtro */
+.search-filter-container {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre el buscador y el filtro */
+    padding: 10px;
+}
+
+/* Buscador (ion-searchbar) */
+.search-filter-container ion-searchbar {
+    flex: 1; /* Ocupa el espacio disponible */
+    --background: var(--color-input-bg);
+    --placeholder-color: #aaa;
+    --icon-color: #555; /* Color del icono de búsqueda */
+    color: var(--color-text);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+/* Botón de filtro */
+.search-filter-container ion-button.filter-button {
+    flex: 0; /* Tamaño fijo para el botón */
+    --background: var(--color-primary);
+    --color: #ffffff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    font-weight: bold;
+}
